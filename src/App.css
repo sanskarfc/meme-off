@@ -26,6 +26,10 @@
 
 .App-link {
   color: #61dafb;
+} 
+
+.SignUpClerk {
+    align-items: center;
 }
 
 @keyframes App-logo-spin {

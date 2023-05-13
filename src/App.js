@@ -46,7 +46,9 @@ function App() {
             </div>
         </SignedIn>
         <SignedOut>
-            <SignUp />
+            <div className="SignUpClerk">
+                <SignUp />
+            </div>
         </SignedOut>
       </ClerkProvider>
   );
