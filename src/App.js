@@ -1,25 +1,34 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [memeUrl, setMemeUrl] = useState('');
+
+  const handleGetMemeClick = async () => {
+    try {
+      const response = await fetch('https://api.imgflip.com/get_memes');
+      const data = await response.json();
+      const memes = data.data.memes;
+      const randomMeme = memes[Math.floor(Math.random() * memes.length)];
+      setMemeUrl(randomMeme.url);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Meme Race</h1>
+      <h2>Press the button to get a random meme template</h2>
+      <button onClick={handleGetMemeClick}>Get a Meme!</button>
+      {memeUrl && (
+        <div>
+          <img src={memeUrl} alt="Meme" />
+        </div>
+      )}
     </div>
   );
 }
 
 export default App;
+
