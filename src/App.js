@@ -1,5 +1,20 @@
-import React, { useState } from 'react';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import {
+  ClerkProvider,
+  SignedIn,
+  SignedOut,
+  UserButton,
+  useUser,
+  RedirectToSignIn,
+  SignUp,
+} from "@clerk/clerk-react";
+
+if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
+  throw new "Missing Publishable Key"
+} 
+
+const clerkPubKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
 
 function App() {
   const [memeUrl, setMemeUrl] = useState('');
@@ -16,19 +31,25 @@ function App() {
     }
   };
 
-  return (
-    <div>
-      <h1>Meme Race</h1>
-      <h2>Press the button to get a random meme template</h2>
-      <button onClick={handleGetMemeClick}>Get a Meme!</button>
-      {memeUrl && (
-        <div>
-          <img src={memeUrl} alt="Meme" />
-        </div>
-      )}
-    </div>
+  return ( 
+      <ClerkProvider publishableKey={clerkPubKey}>
+        <SignedIn>
+            <div>
+              <h1>Meme Race</h1>
+              <h2>Press the button to get a random meme template</h2>
+              <button onClick={handleGetMemeClick}>Get a Meme!</button>
+              {memeUrl && (
+                <div>
+                  <img src={memeUrl} alt="Meme" />
+                </div>
+              )}
+            </div>
+        </SignedIn>
+        <SignedOut>
+            <SignUp />
+        </SignedOut>
+      </ClerkProvider>
   );
 }
 
 export default App;
-
